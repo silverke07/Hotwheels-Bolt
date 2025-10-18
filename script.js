@@ -233,3 +233,4 @@ function addToCart(id, qty=1){
   const prod = PRODUCTS.find(p=>p.id===id);
   if(!prod) return alert('Product not found');
   const cart = JSON.parse(localStorage.getItem('
+
