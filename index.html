@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Dad's Hot Wheels collector shop — browse 1:64 die-cast treasures, wishlist favorites, and build your cart." />
+  <title>Dad's Hot Wheels Shop | 2025 Collectors</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <button type="button" class="logo" onclick="renderHome()" aria-label="Home">
+        <span class="logo-flame" aria-hidden="true">🔥</span>
+        <span class="logo-text">Dad's Hot Wheels Shop</span>
+      </button>
+
+      <form class="search-form" role="search" onsubmit="handleSearchSubmit(event)">
+        <label class="visually-hidden" for="search-input">Search cars</label>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search by name or brand…"
+          autocomplete="off"
+          oninput="handleSearchInput(this.value)"
+        />
+        <button type="submit" class="search-btn" aria-label="Search">⌕</button>
+      </form>
+
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="Main">
+        <button type="button" data-nav="home" onclick="renderHome()">Home</button>
+        <button type="button" data-nav="shop" onclick="renderShop(1)">Shop</button>
+        <button type="button" data-nav="wishlist" onclick="renderWishlist()">
+          Wishlist <span id="wishlist-count" class="badge">0</span>
+        </button>
+        <button type="button" data-nav="cart" onclick="renderCart()">
+          Cart <span id="cart-count" class="badge">0</span>
+        </button>
+        <button type="button" class="btn-filter" onclick="toggleFilter()">Filters</button>
+      </nav>
+    </div>
+  </header>
+
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <main id="content" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Dad's Hot Wheels Shop</strong>
+        <p>Built with love for a lifelong collector. Prices in HUF · 1:64 scale.</p>
+      </div>
+      <div class="footer-links">
+        <button type="button" onclick="renderHome()">Home</button>
+        <button type="button" onclick="renderShop(1)">Shop all</button>
+        <a href="https://github.com/silverke07/Hotwheels-Bolt" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">
+        <small>© <span id="year"></span> Hot Wheels Collectors — Display &amp; collector use. Not affiliated with Mattel.</small>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Filter panel -->
+  <div id="filter-popup" class="filter-popup" role="dialog" aria-modal="true" aria-labelledby="filter-title" hidden>
+    <div class="filter-panel">
+      <div class="filter-header">
+        <h2 id="filter-title">Filter &amp; sort</h2>
+        <button type="button" class="icon-btn" onclick="toggleFilter()" aria-label="Close filters">✕</button>
+      </div>
+      <div class="filter-grid">
+        <fieldset>
+          <legend>Brand</legend>
+          <div id="filter-brands" class="chip-list"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Series</legend>
+          <div id="filter-series" class="chip-list"></div>
+        </fieldset>
+        <label class="field">
+          <span>Max price (HUF)</span>
+          <input type="range" id="filter-max-price" min="2000" max="4500" step="50" value="4500" oninput="updatePriceLabel()" />
+          <output id="filter-price-label">4&nbsp;500 Ft</output>
+        </label>
+        <label class="field">
+          <span>Sort by</span>
+          <select id="filter-sort" onchange="applyFiltersFromPanel()">
+            <option value="name-asc">Name A → Z</option>
+            <option value="name-desc">Name Z → A</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="brand-asc">Brand A → Z</option>
+          </select>
+        </label>
+        <label class="chip checkbox-chip">
+          <input type="checkbox" id="filter-in-stock" checked onchange="applyFiltersFromPanel()" />
+          In stock only
+        </label>
+        <label class="chip checkbox-chip">
+          <input type="checkbox" id="filter-treasure-only" onchange="applyFiltersFromPanel()" />
+          Treasure Hunt &amp; STH only
+        </label>
+      </div>
+      <div class="filter-actions">
+        <button type="button" class="btn btn-ghost" onclick="resetFilters()">Reset</button>
+        <button type="button" class="btn btn-primary" onclick="applyFiltersAndClose()">Show results</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product quick view -->
+  <div id="product-modal" class="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="product-modal-panel">
+      <button type="button" class="icon-btn modal-close" onclick="closeProductModal()" aria-label="Close">✕</button>
+      <div id="product-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="cars-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
