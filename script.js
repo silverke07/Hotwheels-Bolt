@@ -16,9 +16,10 @@ function enrichCar(raw, index) {
 
   const year = 2023 + (index % 3);
 
-  return {
+  const id = index + 1;
+  const car = {
     ...raw,
-    id: index + 1,
+    id,
     series,
     year,
     scale: "1:64",
@@ -26,6 +27,8 @@ function enrichCar(raw, index) {
     inStock: index % 23 !== 0,
     featured: index < 8 || index % 17 === 0,
   };
+  car.img = typeof getCarImageUrl === "function" ? getCarImageUrl(car) : raw.img;
+  return car;
 }
 
 const cars = carsRaw.map(enrichCar);
@@ -377,8 +380,7 @@ function renderProductCard(car) {
   return `
     <article class="card" data-id="${car.id}">
       <div class="card-media">
-        <img src="${car.img}" alt="${escapeHtml(car.name)}" loading="lazy"
-          onerror="this.src=''; this.classList.add('img-fallback'); this.alt='Image unavailable';" />
+        <img src="${car.img}" alt="${escapeHtml(car.name)}" loading="lazy" decoding="async" />
         <span class="series-badge ${seriesClass(car.series)}">${escapeHtml(car.series)}</span>
         ${!car.inStock ? '<span class="stock-badge out">Sold out</span>' : ""}
         <button type="button" class="wish-btn ${wished ? "active" : ""}"

@@ -430,14 +430,15 @@ main > section > h1 {
 .cart-thumb {
   width: 100%;
   height: 150px;
-  object-fit: cover;
-  background: #222;
+  object-fit: contain;
+  background: #0a0a0a;
   display: block;
 }
 
-.card img.img-fallback {
-  object-fit: contain;
-  opacity: 0.4;
+.modal-img {
+  height: 220px;
+  border-radius: var(--radius);
+  background: #0a0a0a;
 }
 
 .series-badge {
@@ -866,11 +867,6 @@ legend {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-}
-
-.modal-img {
-  height: 220px;
-  border-radius: var(--radius);
 }
 
 .modal-info h2 {
